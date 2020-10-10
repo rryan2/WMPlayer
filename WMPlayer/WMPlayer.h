@@ -14,7 +14,6 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import <AVKit/AVKit.h>
 #import "WMPlayerModel.h"
 #import "FastForwardView.h"
 #import "WMLightView.h"
@@ -28,11 +27,6 @@ typedef NS_ENUM(NSInteger, WMPlayerState) {
     WMPlayerStateStopped,       //暂停播放
     WMPlayerStateFinished,      //完成播放
     WMPlayerStatePause,         // 打断播放
-};
-typedef NS_ENUM(NSUInteger, WMPlayerViewState) {
-    PlayerViewStateSmall,
-    PlayerViewStateFullScreen,
-    PlayerViewStateAnimating,
 };
 // playerLayer的填充模式（默认：等比例填充，直到一个维度到达区域边界）
 typedef NS_ENUM(NSInteger, WMPlayerLayerGravity) {
@@ -59,16 +53,13 @@ typedef NS_ENUM(NSUInteger,WMControlType) {
 
 @class WMPlayer;
 @protocol WMPlayerDelegate <NSObject>
-
-@required
+@optional
+//点击播放暂停按钮代理方法
+-(void)wmplayer:(WMPlayer *)wmplayer clickedPlayOrPauseButton:(UIButton *)playOrPauseBtn;
 //点击关闭按钮代理方法
 -(void)wmplayer:(WMPlayer *)wmplayer clickedCloseButton:(UIButton *)backBtn;
 //点击全屏按钮代理方法
 -(void)wmplayer:(WMPlayer *)wmplayer clickedFullScreenButton:(UIButton *)fullScreenBtn;
-
-@optional
-//点击播放暂停按钮代理方法
--(void)wmplayer:(WMPlayer *)wmplayer clickedPlayOrPauseButton:(UIButton *)playOrPauseBtn;
 //点击锁定🔒按钮的方法
 -(void)wmplayer:(WMPlayer *)wmplayer clickedLockButton:(UIButton *)lockBtn;
 //单击WMPlayer的代理方法
@@ -89,11 +80,6 @@ typedef NS_ENUM(NSUInteger,WMControlType) {
 
 
 @interface WMPlayer : UIView
-@property(nonatomic,strong)UIView *parentView;
-@property(nonatomic,assign)CGRect originFrame;
-@property(nonatomic,assign)CGRect beforeBounds;
-@property(nonatomic,assign)CGPoint beforeCenter;
-@property (nonatomic, assign) WMPlayerViewState  viewState;
 /**
  播放器对应的model
  */
@@ -125,13 +111,9 @@ typedef NS_ENUM(NSUInteger,WMControlType) {
  */
 @property (nonatomic,assign) BOOL  enableVolumeGesture;
 /**
- 是否开启后台播放模式，default NO，关闭
+ 是否开启后台播放模式
  */
 @property (nonatomic,assign) BOOL  enableBackgroundMode;
-/**
- 是否开启AirPlay投屏功能，default NO，关闭
- */
-@property (nonatomic,assign) BOOL  enableAirPlay;
 /**
  是否开启快进手势
  */
@@ -141,9 +123,10 @@ typedef NS_ENUM(NSUInteger,WMControlType) {
  */
 @property (nonatomic,assign) BOOL  muted;
 /**
- 是否循环播放（不循环则意味着需要手动触发第二次播放），default NO
+ 是否循环播放（不循环则意味着需要手动触发第二次播放）
  */
 @property (nonatomic,assign) BOOL  loopPlay;
+
 
 /**
  设置playerLayer的填充模式
@@ -151,6 +134,7 @@ typedef NS_ENUM(NSUInteger,WMControlType) {
 @property (nonatomic, assign) WMPlayerLayerGravity    playerLayerGravity;
 //是否是锁定屏幕旋转状态
 @property (nonatomic,assign,readonly) BOOL isLockScreen;
+
 
 /**
  自定义实例化方法初始化方式（-方法）
@@ -199,6 +183,13 @@ typedef NS_ENUM(NSUInteger,WMControlType) {
  */
 - (void )resetWMPlayer;
 
+- (void )hideController;
+
+- (void )showController;
+
+- (void )hideFullScreenBtn;
+
+- (void )showFullScreenBtn;
 /**
  版本号
 
