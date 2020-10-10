@@ -183,6 +183,13 @@ typedef NS_ENUM(NSUInteger,WMControlType) {
  */
 - (void )resetWMPlayer;
 
+- (void )hideController;
+
+- (void )showController;
+
+- (void )hideFullScreenBtn;
+
+- (void )showFullScreenBtn;
 /**
  版本号
 

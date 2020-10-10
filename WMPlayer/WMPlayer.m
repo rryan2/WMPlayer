@@ -145,9 +145,9 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     [[AVAudioSession sharedInstance]setActive: YES error: &activationErr];
     //wmplayer内部的一个view，用来管理子视图
     self.contentView = [UIView new];
-    self.contentView.backgroundColor = [UIColor blackColor];
+    self.contentView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.contentView];
-    self.backgroundColor = [UIColor blackColor];
+    self.backgroundColor = [UIColor clearColor];
 
     //创建fastForwardView，快进⏩和快退的view
     self.FF_View = [[FastForwardView alloc] init];
@@ -161,6 +161,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     
     //小菊花
     self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.loadingView.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:self.loadingView];
     [self.loadingView startAnimating];
     
@@ -447,7 +448,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     self.progressSlider.minimumTrackTintColor = self.tintColor;
     self.bottomProgress.progressTintColor = self.tintColor;
 }
-#pragma mark 
+#pragma mark
 #pragma mark 进入前台
 - (void)appWillEnterForeground:(NSNotification*)note{
         if (self.state==WMPlayerStateFinished) {
@@ -694,7 +695,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     }
 }
 //重写playerModel的setter方法，处理自己的逻辑
--(void)setPlayerModel:(WMPlayerModel *)playerModel{    
+-(void)setPlayerModel:(WMPlayerModel *)playerModel{
     if (_playerModel==playerModel) {
         return;
     }
@@ -758,6 +759,13 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
         }
     }
     return iPhoneXSeries;
+}
+//隐藏全屏
+-(void)hideFullScreenBtn{
+    _fullScreenBtn.hidden = true;
+}
+-(void)showFullScreenBtn{
+    _fullScreenBtn.hidden = false;
 }
 //是否全屏
 -(void)setIsFullscreen:(BOOL)isFullscreen{
@@ -859,6 +867,15 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
             }
         }
     }];
+}
+
+-(void)hideController{
+    self.bottomView.hidden = YES;
+    self.topView.hidden = YES;
+}
+-(void)showController{
+    self.bottomView.hidden = NO;
+    self.topView.hidden = NO;
 }
 //显示操作栏view
 -(void)showControlView{
@@ -1136,7 +1153,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     NSTimeInterval result     = startSeconds + durationSeconds;// 计算缓冲总进度
     return result;
 }
-#pragma mark 
+#pragma mark
 #pragma mark - touches
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     //这个是用来判断, 如果有多个手指点击则不做出响应
