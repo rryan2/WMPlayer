@@ -190,6 +190,8 @@ typedef NS_ENUM(NSUInteger,WMControlType) {
 - (void )hideFullScreenBtn;
 
 - (void )showFullScreenBtn;
+
+- (void )hideLockBtn;
 /**
  版本号
 

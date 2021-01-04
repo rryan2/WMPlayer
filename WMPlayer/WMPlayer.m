@@ -380,7 +380,7 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
         make.centerY.equalTo(self.titleLabel);
     }];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.mas_equalTo(self.backBtn.mas_trailing).offset(50);
+//        make.leading.mas_equalTo(self.backBtn.mas_trailing).offset(50);
         make.trailing.equalTo(self.topView).offset(-50);
         make.center.equalTo(self.topView);
         make.top.equalTo(self.topView);
@@ -767,6 +767,10 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
 -(void)showFullScreenBtn{
     _fullScreenBtn.hidden = false;
 }
+-(void)hideLockBtn{
+    _lockBtn.hidden = true;
+}
+
 //是否全屏
 -(void)setIsFullscreen:(BOOL)isFullscreen{
     _isFullscreen = isFullscreen;
