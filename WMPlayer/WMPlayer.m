@@ -1085,7 +1085,9 @@ static void *PlayViewStatusObservationContext = &PlayViewStatusObservationContex
     CMTime playerDuration = [self playerItemDuration];
     CGFloat totalTime = (CGFloat)CMTimeGetSeconds(playerDuration);
 
-   
+    if(self.currentItem.currentTime.timescale == 0){
+            return;
+    }
     long long nowTime = self.currentItem.currentTime.value/self.currentItem.currentTime.timescale;
     self.leftTimeLabel.text = [self convertTime:nowTime];
     self.rightTimeLabel.text = [self convertTime:self.totalTime];
